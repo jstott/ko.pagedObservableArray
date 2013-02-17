@@ -47,12 +47,12 @@
 
         if (!options) { throw "Options not specified"; }
         if (!options.loadPage) { throw "loadPage not specified on options"; }
-		
+
         options.schema = options.schema || { data: 'Data', count: 'Count' };
 
         var
             self = this,
-			
+
 		//the complete data collection
 	     _allData = ko.observableArray(options.data || []),
 
@@ -72,32 +72,31 @@
 		        count = Math.ceil(ko.utils.unwrapObservable(_totalCount) / ko.utils.unwrapObservable(_pageSize));
 		    else
 		        count = Math.ceil(_allData().length / ko.utils.unwrapObservable(_pageSize));
-		    return count ;//== 0 ? 1 : count;
+		    return count;//== 0 ? 1 : count;
 		}),
 
-        _pageRange = ko.computed(function() {
-            var  
+        _pageRange = ko.computed(function () {
+            var
                 pages = [],
                 cnt = _pageCount();
-            for (var i = 1;i <= cnt; i++)
-            {
+            for (var i = 1; i <= cnt; i++) {
                 pages.push(i);
             }
             return pages;
-           // return [1, 2, 3, 4];
+            // return [1, 2, 3, 4];
         }),
-		
+
 		//the current page data
 		_pagedData = ko.computed(function () {
 		    var pageSize = _pageSize(),
 				pageIndex = _pageIndex(),
 				startIndex = pageSize * pageIndex,
 				endIndex = pageSize * (pageIndex + 1);
-				if (!options.serverPaging && (options.aggregateResults || options.data) ) {
-					return _allData().slice(startIndex, endIndex);
-				} else {
-					return _allData();
-				}
+		    if (!options.serverPaging && (options.aggregateResults || options.data)) {
+		        return _allData().slice(startIndex, endIndex);
+		    } else {
+		        return _allData();
+		    }
 		}, self),
 
         // option to externally handle mapping of remote data
@@ -107,38 +106,38 @@
 
 		//load a page of data, then display it
 		_loadPage = function () {
-			return $.Deferred(function (def) {
-				var deferred,
+		    return $.Deferred(function (def) {
+		        var deferred,
 					paramOptions = { pageSize: _pageSize(), pageIndex: _pageIndex() };
-					
-				_loading(true);
-				if (options.parameterMap)
-					paramOptions = options.parameterMap(paramOptions); // let consumer option to modify params
 
-				deferred = options.loadPage(paramOptions);
-				$.when(deferred).then(function (data, status) {
-					//var tmpArray = options.aggregateResults ? ko.utils.unwrapObservable(_allData()) || [] : [];
-					var tmpArray = [];
-					if (status === 'success') {
-						if (options.map)
-							tmpArray = options.map(data[options.schema.data]);
-						else
-							tmpArray.push.apply(tmpArray, data[options.schema.data]);
-						if (options.aggregateResults)
-							ko.utils.arrayPushAll(_allData, tmpArray);
-						else
-							_allData(tmpArray);
-						
-						_allData.valueHasMutated();
-						_totalCount(data[options.schema.count]); // capture count of items
-						def.resolve(data[options.schema.count]);
-					} else {
-						def.reject(status);
-					}
-				}).always(function () {
-					_loading(false);
-				});
-			});
+		        _loading(true);
+		        if (options.parameterMap)
+		            paramOptions = options.parameterMap(paramOptions); // let consumer option to modify params
+
+		        deferred = options.loadPage(paramOptions);
+		        $.when(deferred).then(function (data, status) {
+		            //var tmpArray = options.aggregateResults ? ko.utils.unwrapObservable(_allData()) || [] : [];
+		            var tmpArray = [];
+		            if (status === 'success') {
+		                if (options.map)
+		                    tmpArray = options.map(data[options.schema.data]);
+		                else
+		                    tmpArray.push.apply(tmpArray, data[options.schema.data]);
+		                if (options.aggregateResults)
+		                    ko.utils.arrayPushAll(_allData, tmpArray);
+		                else
+		                    _allData(tmpArray);
+
+		                _allData.valueHasMutated();
+		                _totalCount(data[options.schema.count]); // capture count of items
+		                def.resolve(data[options.schema.count]);
+		            } else {
+		                def.reject(status);
+		            }
+		        }).always(function () {
+		            _loading(false);
+		        });
+		    });
 		},
 
         _refresh = function () {
@@ -149,10 +148,10 @@
 	    _nextPage = function () {
 	        if (_pageIndex() < _pageCount()) {
 	            _pageIndex(_pageIndex() + 1);
-	            //_loadPage();
+	            _loadPage();
 	        }
 	    },
-        _moveToPage = function(index) {
+        _moveToPage = function (index) {
             if (_pageIndex() !== index) {
                 _pageIndex(index);
                 _loadPage();
@@ -162,7 +161,7 @@
 	    _previousPage = function () {
 	        if (_pageIndex() > 1) {
 	            _pageIndex(_pageIndex() - 1);
-	            //_loadPage();
+	            _loadPage();
 	        }
 	    };
 
@@ -178,8 +177,8 @@
 
         //public members
         self.allData = _allData;
-		self.pagedData = _pagedData;
-		self.load = _loadPage;
+        self.pagedData = _pagedData;
+        self.load = _loadPage;
         self.pageRange = _pageRange;
         self.pageSize = _pageSize;
         self.pageIndex = _pageIndex;
@@ -192,6 +191,6 @@
         self.totalCount = _totalCount;
         self.loading = _loading;
         self.refresh = _refresh;
-		
+
     };
-}( $, ko));
+}($, ko));
