@@ -93,7 +93,7 @@
 				pageIndex = _pageIndex(),
 				startIndex = pageSize * pageIndex,
 				endIndex = pageSize * (pageIndex + 1);
-				if (options.aggregateResults || options.data) {
+				if (!options.serverPaging && (options.aggregateResults || options.data) ) {
 					return _allData().slice(startIndex, endIndex);
 				} else {
 					return _allData();
