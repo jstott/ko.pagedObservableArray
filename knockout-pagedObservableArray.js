@@ -63,7 +63,7 @@
 	     _pageIndex = ko.observable(1),
 
 		//the total count
-		_totalCount = ko.observable(_allData().length),
+		_totalCount = ko.observable(_allData().length ),
 
 		//the number of pages
 		_pageCount = ko.computed(function () {
@@ -129,8 +129,8 @@
 		                    _allData(tmpArray);
 
 		                _allData.valueHasMutated();
-		                _totalCount(data[options.schema.count]); // capture count of items
-		                def.resolve(data[options.schema.count]);
+		                _totalCount(data[options.schema.count] || 0); // capture count of items
+		                def.resolve(_totalCount());
 		            } else {
 		                def.reject(status);
 		            }
