@@ -14,7 +14,7 @@ var api = {
         setTimeout(function() {
 			result = {
                 Count: sampleData.length,
-                Data: sampleData.slice(option.pageIndex * option.pageSize, (option.pageIndex + 1) * option.pageSize)
+                Data: sampleData.slice(option.pageIndex * option.pageSize,  option.pageSize * (option.pageIndex+1))
             };
             defer.resolve(result, status);
         }, 1000);
@@ -57,7 +57,7 @@ test( "test creation - no data load", 7, function() {
 });
 test( "static load data", 10, function() {
 	var paged = new ko.pagedObservableArray({
-            serverPaging: true,
+            serverPaging: false,
 			pageSize: 5,
 			data: sampleData,
 			autoLoad: false,

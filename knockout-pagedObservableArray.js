@@ -101,7 +101,13 @@
 
         // option to externally handle mapping of remote data
         _map = options.map,
-
+		_defer: function(action) {
+			if (options.defer) {
+				return options.defer(action);
+			} else {
+				return $.Deferred(action);
+			}
+        },
         _loading = ko.observable(false),
 
 		//load a page of data, then display it
@@ -118,9 +124,9 @@
 		        $.when(deferred).then(function (data, status) {
 		            //var tmpArray = options.aggregateResults ? ko.utils.unwrapObservable(_allData()) || [] : [];
 		            var tmpArray = [];
-		            if (status === 'success') {
-		                if (options.map)
-		                    tmpArray = options.map(data[options.schema.data]);
+		            if (data && data[options.schema.data]) {
+		                if (_map)
+		                    tmpArray = _map(data[options.schema.data]);
 		                else
 		                    tmpArray.push.apply(tmpArray, data[options.schema.data]);
 		                if (options.aggregateResults)
@@ -137,7 +143,7 @@
 		        }).always(function () {
 		            _loading(false);
 		        });
-		    });
+		    }).promise();
 		},
 
         _refresh = function () {
