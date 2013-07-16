@@ -167,7 +167,7 @@
 
         //reset page index when page size changes
         _pageSize.subscribe(function () {
-            _pageIndex(0);
+            _pageIndex(1);
             _loadPage();
         });
         //_allData.subscribe(function () { _pageIndex(0); });
