@@ -108,7 +108,7 @@
 
 			// option to externally handle mapping of remote data
 			_map = options.map,
-			_defer: function(action) {
+			_defer = function(action) {
 				if (options.defer) {
 					return options.defer(action);
 				} else {
@@ -182,14 +182,24 @@
 			};
 
 		//reset page index when page size changes
+		/*
 		_pageSize.subscribe(function() {
 			_pageIndex(1);
 			_loadPage();
 		});
+		*/
+
 		//_allData.subscribe(function () { _pageIndex(0); });
 
 		if (options.autoLoad)
 			_loadPage();
+
+		ko.computed(function() {
+			// This evaluation logic is exactly the same as before
+			var params = _pageSize();
+			_pageIndex(1);
+			_loadPage();
+		}).extend({throttle: 1});
 
 		//public members
 		self.allData = _allData;

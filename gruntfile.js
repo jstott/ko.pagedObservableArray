@@ -5,18 +5,23 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
+		report:'min',
+		mangle: false,
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: '<%= pkg.name %>.js',
-        dest: '<%= pkg.name %>.min.js'
-      }
+			files: {'knockout-pagedObservableArray.min.js':
+				[
+					'knockout-pagedObservableArray.js'
+				]
+			}
+		}
     },
 	jshint: {
 		options: {
 			jshintrc: '.jshintrc'
 		},
-		all: ['<%= pkg.name %>.js']
+		all: ['Gruntfile.js', 'knockout-pagedObservableArray.js']
 	},
   });
 
