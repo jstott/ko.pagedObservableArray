@@ -80,6 +80,8 @@ publish
 
 # NuGet Packages Directory
 packages
+# npm packages directory
+node_modules
 
 # Windows Azure Build Output
 csx

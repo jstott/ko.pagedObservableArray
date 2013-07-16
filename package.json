@@ -1,0 +1,28 @@
+{
+  "name": "ko.pagedObservableArray",
+  "version": "0.1.0",
+  "description": "Pagable ko.observableArray",
+  "main": "knockout-pagedObservableArray.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jstott/ko.pagedObservableArray.git"
+  },
+  "keywords": [
+    "knockout",
+    "paged",
+    "observableArray"
+  ],
+  "author": "J. Stott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jstott/ko.pagedObservableArray/issues"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jshint": "~0.6.0"
+  }
+}
