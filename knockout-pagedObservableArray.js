@@ -1,7 +1,5 @@
-/*global ko: false*/
-
 // By: James Stott
-// https://github.com/jstott/KoLite.git
+// https://github.com/jstott/ko.pagedObservableArray
 //
 // Knockout.pagedObservableArray
 //
@@ -194,13 +192,18 @@
 		if (options.autoLoad)
 			_loadPage();
 
+		_pageSize.subscribe(function(newVal){
+			_pageIndex(1);
+			_loadPage();
+		});
+		/*
 		ko.computed(function() {
 			// This evaluation logic is exactly the same as before
 			var params = _pageSize();
 			_pageIndex(1);
 			_loadPage();
 		}).extend({throttle: 1});
-
+		*/
 		//public members
 		self.allData = _allData;
 		self.pagedData = _pagedData;
